@@ -5,11 +5,13 @@ from simulationAnalyzer import *
 __author__ = 'smcho'
 
 testName = "unittest"
+strategy = "SimpleShareLogic"
+contextType = "b"
 
 class TestGetConfigurationFile(TestCase):
 
     def test_getResultFile(self):
-        self.assertTrue(getResultFilePath(testName, "SimpleShareLogic", "b").endswith("{}/results/result_smcho.SimpleShareLogic_b.json".format(testName)))
+        self.assertTrue(getResultFilePath(testName, strategy, contextType).endswith("{}/results/result_smcho.{}_{}.json".format(testName, strategy, contextType)))
     def test_getConfigurationFile(self):
         self.assertTrue(getConfigurationFilePath(testName).endswith("{}/c.txt".format(testName)))
     def test_parseConfigurationFile(self):
