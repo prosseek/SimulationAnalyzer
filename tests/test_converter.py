@@ -1,18 +1,15 @@
-import os
-
 from unittest import TestCase
-from simulationAnalyzer import SimulationAnalyzer as S
-from simulationAnalyzer import getResultFile
 
 __author__ = 'smcho'
 
-testName = "unittest"
+from simulationAnalyzer import Reader as S
+from simulationAnalyzer import Converter as C
 
-class TestSimulationAnalyzer(TestCase):
+class TestConverter(TestCase):
+
     def setUp(self):
-        self.p = S("unittest", "SimpleShareLogic", "b")
-    def test_simulationAnalyzer(self):
-        line = self.p.dict
+        self.s = S("unittest", "SimpleShareLogic", "b")
+        self.p = C(self.s)
 
     def test_idToGroup(self):
         self.assertTrue(1 == self.p.hostToGroup(0))
@@ -38,9 +35,9 @@ class TestSimulationAnalyzer(TestCase):
 
     def test_getContext(self):
         # print self.p.dict
-        print self.p.getContexts("v",1)
-        print self.p.getContexts("ma",1)
-        print self.p.getContexts("mb",1)
-        print self.p.getContexts("mc",1)
-        print self.p.getContexts("md",1)
-
+        # print self.p.getContexts("v",1)
+        # print self.p.getContexts("ma",1)
+        # print self.p.getContexts("mb",1)
+        # print self.p.getContexts("mc",1)
+        # print self.p.getContexts("md",1)
+        pass

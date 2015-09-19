@@ -1,4 +1,5 @@
 __author__ = 'smcho'
 
-from .reader import SimulationAnalyzer
+from .reader import *
+from .converter import *
 from .config import *
