@@ -17,6 +17,7 @@ class Reader:
         self.configMapFilePath = getConfigurationFilePath(simulationName)
         self.configMap = readConfigurationFile(simulationName)
         self.groupIdAccList = self.createGroupIdAccList()
+        self.groupToGroupIDMap = self.createGroupToGroupIDMap()
 
     def loadJSON(self):
         with open(self.filePath) as data_file:
@@ -36,3 +37,8 @@ class Reader:
         # [('v', 1), ('s', 41), ('p', 81), ('ma', 82), ('mb', 83), ('mc', 84), ('md', 85)]
         return zip(groupIDs, groupCount)
 
+    def createGroupToGroupIDMap(self):
+        result = {}
+        for index, (groupID, acc) in enumerate(self.groupIdAccList):
+            result[index+1] = groupID
+        return result
