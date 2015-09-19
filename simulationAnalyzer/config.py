@@ -4,7 +4,7 @@ __author__ = 'smcho'
 
 baseDirectory = "/Users/smcho/Desktop/code/ContextSharingSimulation/experiment/simulation"
 
-def getResultFile(simulationName, strategy, summaryType):
+def getResultFilePath(simulationName, strategy, summaryType):
     simulationDirectory = baseDirectory + "/{}".format(simulationName)
     resultDirectory = simulationDirectory + "/results/"
 
@@ -12,13 +12,26 @@ def getResultFile(simulationName, strategy, summaryType):
         resultDirectory = resultDirectory, strategy = strategy, summaryType = summaryType))
     return abspath
 
-def getConfigurationFile(simulationName):
+def getConfigurationFilePath(simulationName):
     simulationDirectory = baseDirectory + "/{}".format(simulationName)
     abspath = simulationDirectory + "/c.txt"
     return abspath
 
-def parseConfigurationFile(simulationName):
-    """From simulation name, returns the configuration in a map """
+def readConfigurationFile(simulationName):
+    """
+    From simulation name, returns the configuration in a map
+
+    For example:
+
+    MovementModel.warmup = 10
+    Scenario.endTime = 10000
+    ContextSummary.summaryType = b
+
+    map['MovementModel.warmup'] = 10
+    map['Scenario.endTime'] = 10000
+    map['ContextSummary.summaryType'] = 'b'
+
+    """
     def getValue(value):
         if "[" in value:
             value = value[1:-1]
@@ -37,7 +50,7 @@ def parseConfigurationFile(simulationName):
             except ValueError:
                 return value # string
 
-    c = getConfigurationFile(simulationName)
+    c = getConfigurationFilePath(simulationName)
     with open(c, "r") as f:
         lines = f.readlines()
         f.close()
