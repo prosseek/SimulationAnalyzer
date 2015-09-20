@@ -19,6 +19,9 @@ class Reader:
         self.groupIdAccList = self.createGroupIdAccList()
         self.groupToGroupIDMap = self.createGroupToGroupIDMap()
 
+        # 3. get necessary information from the configuration map
+        self.groupCount = self.configMap["Scenario.nrofHostGroups"]
+
     def loadJSON(self):
         with open(self.filePath) as data_file:
             return json.load(data_file)
