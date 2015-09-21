@@ -50,7 +50,7 @@ class Converter(object):
                 result = prev + count
                 if acc > result: return result
                 else:
-                    raise Exception("Out of range result{} - range{}".format(result, prev+acc))
+                    raise Exception("Out of range result: groupID({})/count({}) ->{}/{}".format(groupId, count, result, prev+acc))
             prev = acc
         raise Exception("sum - {}".format(sum))
 

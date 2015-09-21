@@ -10,7 +10,6 @@ from simulationAnalyzer import utility as u
 
 class TestAnalyzer(TestCase):
 
-
     def setUp(self):
         self.s = R("unittest", "SimpleShareLogic", "b")
         self.c = C(self.s)
@@ -23,6 +22,8 @@ class TestAnalyzer(TestCase):
         for r in res2:
             print u.listToCountList(r)
 
-
-
+    def test_showTime(self):
+        print self.a.showTime("v",1,"ma",1)
+        print self.a.showTime("ma",1, "v", 1)
+        print self.a.showTime("s",1, "v", 1)
 

@@ -73,4 +73,13 @@ class Analyzer(object):
         :return:
         """
         contexts = self.getContexts(groupId1, index1)
-        print contexts
+        searchContextName = self.converter.groupIDIndexToContext(groupId2, index2)
+
+        result = []
+        for c in contexts:
+            contextName = c[3]
+            if contextName.startswith(searchContextName):
+                result.append(c[2])
+
+        return sorted(result)
+
