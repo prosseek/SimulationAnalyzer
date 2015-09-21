@@ -35,7 +35,7 @@ class Analyzer(object):
         host = self.converter.groupIDIndexToHost(groupId, index)
         return self.jsonMap["hostToTuplesMap"][str(host)]
 
-    def getTime(self, groupId1, index1, groupId2, index2):
+    def showTime(self, groupId1, index1, groupId2, index2):
         """
             returns the time when
             groupId1/index1 finds the contexts of groupId2/index2
