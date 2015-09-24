@@ -40,8 +40,27 @@ class Reader:
         # [('v', 1), ('s', 41), ('p', 81), ('ma', 82), ('mb', 83), ('mc', 84), ('md', 85)]
         return zip(groupIDs, groupCount)
 
+    def createGroupIdCountList(self):
+        """Returns a map of
+           GroupId -> Acc
+        """
+        # 1. get the number of groups
+        numberOfGroups =  self.configMap["Scenario.nrofHostGroups"]
+        groupCount = []
+        groupIDs = []
+        for i in range(numberOfGroups):
+            groupCount.append(self.configMap["Group{}.nrofHosts".format(i+1)])
+            groupIDs.append(self.configMap["Group{}.groupID".format(i+1)])
+        # [('v', 1), ('s', 41), ('p', 81), ('ma', 82), ('mb', 83), ('mc', 84), ('md', 85)]
+        return zip(groupIDs, groupCount)
+
     def createGroupToGroupIDMap(self):
         result = {}
         for index, (groupID, acc) in enumerate(self.groupIdAccList):
             result[index+1] = groupID
         return result
+
+    def getGroupCount(self): return int(self.groupCount)
+
+    def getHostCount(self): return self.createGroupIdAccList()[-1][1]
+

@@ -41,7 +41,6 @@ class Converter(object):
             prev = acc
         return (groupID, index)
 
-
     def groupIDIndexToHost(self, groupId, count):
         count -= 1 # from the input 1 means the first, but from the index 1 is 0, so 1 should be reduced.
         prev = 0
@@ -50,7 +49,7 @@ class Converter(object):
                 result = prev + count
                 if acc > result: return result
                 else:
-                    raise Exception("Out of range result: groupID({})/count({}) ->{}/{}".format(groupId, count, result, prev+acc))
+                    raise Exception("Out of range result: groupID({})/count({}) -> wrong (acc ({}) > result ({})) {}".format(groupId, count, acc, result, prev))
             prev = acc
         raise Exception("sum - {}".format(sum))
 
