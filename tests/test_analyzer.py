@@ -2,14 +2,13 @@ from unittest import TestCase
 
 __author__ = 'smcho'
 
-
 from simulationAnalyzer import Reader as R
 from simulationAnalyzer import Converter as C
 from simulationAnalyzer import Analyzer as A
 from simulationAnalyzer import utility as u
 
-class TestAnalyzer(TestCase):
 
+class TestAnalyzer(TestCase):
     def setUp(self):
         self.r = R("unittest", "SimpleShareLogic", "b")
         self.c = C(self.r)
@@ -40,12 +39,22 @@ class TestAnalyzer(TestCase):
         # [3547.41, 5162.04, 5233.88, 7279.64]
         # [4238.11, 4384.16, 6878.71, 8805.98, 9857.51]
 
-        self.assertTrue(self.a.showTime("v",1,"ma",1)[0] == 8115.7)
-        self.assertTrue(self.a.showTime("ma",1, "v", 1)[0] == 3547.41)
-        self.assertTrue(self.a.showTime("s",1, "v", 1)[0] == 4238.11)
+        self.assertTrue(self.a.showTime("v", 1, "ma", 1)[0] == 8115.7)
+        self.assertTrue(self.a.showTime("ma", 1, "v", 1)[0] == 3547.41)
+        self.assertTrue(self.a.showTime("s", 1, "v", 1)[0] == 4238.11)
 
     def test_getAllMembers(self):
         count = 0
         for j in self.a.getAllMembers():
             count += 1
         self.assertEqual(count, self.r.getHostCount())
+
+    def test_getCoveragePercentage(self):
+        self.assertTrue(self.a.getCoveragePercentage('v',1) ==
+                        ('g1c0', 4255.369759036144, 98.80952380952381, 83, 84))
+        self.assertTrue(self.a.getCoveragePercentage('p',1) ==
+                        ('g3c41', 6838.456027397262, 86.90476190476191, 73, 84))
+        self.assertTrue(self.a.getCoveragePercentage('ma',1) ==
+                        ('g4c81', 5893.044050632911, 94.04761904761905, 79, 84))
+        self.assertTrue(self.a.getCoveragePercentage('mb',1) ==
+                        ('g5c82', 5861.724177215189, 94.04761904761905, 79, 84))

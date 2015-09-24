@@ -48,7 +48,6 @@ class Analyzer(object):
 
     def getContexts(self, groupId, index):
         """
-
         From JSON result, we need to extract the contexts from groupId/index pair.
         For example, the first host in the "V" group (v/1) will be translated into context name
         such as g1c0 (first group, first host), as the JSON hosts stores information using the
@@ -61,27 +60,30 @@ class Analyzer(object):
         host = self.converter.groupIDIndexToHost(groupId, index)
         return self.jsonMap["hostToTuplesMap"][str(host)]
 
-    def showTime(self, groupId1, index1, groupId2, index2):
+    def showTime(self, finderGroupId1, finderIndex1, groupId2, index2):
         """
             returns the time when
             groupId1/index1 finds the contexts of groupId2/index2
 
-        :param groupId1:
-        :param index1:
+        :param finderGroupId1:
+        :param finderIndex1:
         :param groupId2:
         :param index2:
         :return:
         """
-        contexts = self.getContexts(groupId1, index1)
-        searchContextName = self.converter.groupIDIndexToContext(groupId2, index2)
+        try:
+            contexts = self.getContexts(finderGroupId1, finderIndex1)
+            searchContextName = self.converter.groupIDIndexToContext(groupId2, index2)
 
-        result = []
-        for c in contexts:
-            contextName = c[3]
-            if contextName.startswith(searchContextName):
-                result.append(c[2])
+            result = []
+            for c in contexts:
+                contextName = c[3]
+                if contextName.startswith(searchContextName):
+                    result.append(c[2])
 
-        return sorted(result)
+            return sorted(result)
+        except KeyError: # there is nothing in database
+            return []
 
     def getAllMembers(self):
         # [('v', 1), ('s', 41), ('p', 81), ('ma', 82), ('mb', 83), ('mc', 84), ('md', 85)]
@@ -91,17 +93,14 @@ class Analyzer(object):
                 id = i+1
                 yield self.converter.groupIDIndexToContext(groupId, id)
 
+    def getAllMembersGroupIDIndex(self):
+        # [('v', 1), ('s', 41), ('p', 81), ('ma', 82), ('mb', 83), ('mc', 84), ('md', 85)]
+        tupleList = self.reader.createGroupIdCountList()
+        for (groupId, count) in tupleList:
+            for i in range(count):
+                id = i+1
+                yield (groupId, id)
 
-    def getAllHosts(self):
-        """
-        returns all the hosts in groupId/index format
-
-        :return:
-        """
-
-
-
-        pass
 
     def getCoveragePercentage(self, groupId, index):
         """
@@ -113,7 +112,17 @@ class Analyzer(object):
         :return:
         """
 
+        timeValues = []
         searchContextName = self.converter.groupIDIndexToContext(groupId, index)
+        #print searchContextName
+        for fidnerGroupId, finderIndex in self.getAllMembersGroupIDIndex():
+            getTime = self.showTime(fidnerGroupId, finderIndex, groupId, index)
+            #print fidnerGroupId, finderIndex, getTime[0] if len(getTime) else -1.0
+            timeValues.append(getTime[0] if len(getTime) else -1.0)
 
-        for groupId, index in self.getAllHosts():
-            contexts = self.getContexts(groupId, index)
+        totalCount = self.reader.getHostCount() - 1 # exclude self
+        coveredCount = len(filter(lambda x: x > 0, timeValues))
+        averageTime = sum(filter(lambda x: x > 0, timeValues))/coveredCount
+        #print totalCount, coveredCount
+        return (searchContextName, averageTime, float(coveredCount)/float(totalCount)*100.0, coveredCount, totalCount)
+
