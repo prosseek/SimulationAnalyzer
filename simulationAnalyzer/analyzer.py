@@ -83,3 +83,37 @@ class Analyzer(object):
 
         return sorted(result)
 
+    def getAllMembers(self):
+        # [('v', 1), ('s', 41), ('p', 81), ('ma', 82), ('mb', 83), ('mc', 84), ('md', 85)]
+        tupleList = self.reader.createGroupIdCountList()
+        for (groupId, count) in tupleList:
+            for i in range(count):
+                id = i+1
+                yield self.converter.groupIDIndexToContext(groupId, id)
+
+
+    def getAllHosts(self):
+        """
+        returns all the hosts in groupId/index format
+
+        :return:
+        """
+
+
+
+        pass
+
+    def getCoveragePercentage(self, groupId, index):
+        """
+        groupId/index => contextName
+        find the what percentage of the hosts receive the context contextName
+
+        :param groupId:
+        :param index:
+        :return:
+        """
+
+        searchContextName = self.converter.groupIDIndexToContext(groupId, index)
+
+        for groupId, index in self.getAllHosts():
+            contexts = self.getContexts(groupId, index)

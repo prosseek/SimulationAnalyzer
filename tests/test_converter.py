@@ -50,6 +50,9 @@ class TestConverter(TestCase):
         self.assertEqual(("p", 29), self.p.contextToGroupIDIndex("g3c69l")) # 3rd group -> "p", prev 41, 69-41 = 28, 28+1 == 29
 
     def test_groupIDIndexToContext(self):
+        self.assertEqual("g2c1", self.p.groupIDIndexToContext("s", 1))
+        self.assertEqual("g2c40", self.p.groupIDIndexToContext("s", 40))
+
         self.assertEqual("g1c0", self.p.groupIDIndexToContext("v", 1))
         self.assertEqual("g3c69", self.p.groupIDIndexToContext("p", 29))
 

@@ -36,7 +36,6 @@ if __name__ == "__main__":
 
     if len(args.rest) == 2:
         listToContextName(args.rest)
-
     else:
         name = raw_input("groupId/index: ")
         while name:
