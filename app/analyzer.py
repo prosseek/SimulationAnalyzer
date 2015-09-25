@@ -18,7 +18,6 @@ def percentage(analyzer, groupId, index):
 def getFirstReceiveTime(a, groupId1, index1, groupId2, index2):
     showTime = a.showTime(groupId1, index1, groupId2, index2)
     if len(showTime): return showTime[0]
-    else: return -1.0
 
 def getWhenBookLoverReceivesFromBookSeller1(a):
     return getFirstReceiveTime(a, "v", 1, "mb", 1)
@@ -45,7 +44,6 @@ def getResults(summaryType, simulationName):
     return {"dt":bookLoverReceivesFromBookSeller1, "rt":bookSellerReceivesFromBookLover, "sr":coverageResults[2], "st":coverageResults[1]}
 
 def getLaTeXString(simulationName):
-
     def normalize(input, inputReference):
         result = {}
         for key, value in input.items():
