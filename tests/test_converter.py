@@ -2,13 +2,15 @@ from unittest import TestCase
 
 __author__ = 'smcho'
 
-from simulationAnalyzer import Reader as S
+from simulationAnalyzer import Reader as R
 from simulationAnalyzer import Converter as C
+from simulationAnalyzer.util.path import *
+
 
 class TestConverter(TestCase):
 
     def setUp(self):
-        self.s = S("unittest", "SimpleShareLogic", "b")
+        self.s = R("unittest", "SimpleShareLogic", "b", getBaseDirectory())
         self.p = C(self.s)
 
     def test_hotToGroup(self):

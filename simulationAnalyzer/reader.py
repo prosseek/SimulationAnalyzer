@@ -4,18 +4,21 @@ import json
 from config import *
 
 class Reader:
-    def __init__(self, simulationName, strategy, summaryType):
+    def __init__(self, simulationName, strategy, summaryType, baseDirectory):
         self.simulationName = simulationName
         self.strategy = strategy
         self.summaryType = summaryType
+        self.baseDirectory = baseDirectory
+
+        self.config = Config(baseDirectory)
 
         # 1. get the result file path, and load the JSON into map
-        self.filePath = getResultFilePath(simulationName, strategy, summaryType)
+        self.filePath = self.config.getResultFilePath(simulationName, strategy, summaryType)
         self.jsonMap = self.loadJSON()
 
         # 2. get the configuration map (the c.txt file) and load it inot configMap
-        self.configMapFilePath = getConfigurationFilePath(simulationName)
-        self.configMap = readConfigurationFile(simulationName)
+        self.configMapFilePath = self.config.getConfigurationFilePath(simulationName)
+        self.configMap = self.config.readConfigurationFile(simulationName)
         self.groupIdAccList = self.createGroupIdAccList()
         self.groupToGroupIDMap = self.createGroupToGroupIDMap()
 

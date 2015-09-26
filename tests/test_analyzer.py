@@ -5,12 +5,14 @@ __author__ = 'smcho'
 from simulationAnalyzer import Reader as R
 from simulationAnalyzer import Converter as C
 from simulationAnalyzer import Analyzer as A
-from simulationAnalyzer import utility as u
+from simulationAnalyzer.util.utility import *
 
+from testUtils import *
 
 class TestAnalyzer(TestCase):
     def setUp(self):
-        self.r = R("unittest", "SimpleShareLogic", "b")
+        baseDirectory = getBaseDirectory()
+        self.r = R("unittest", "SimpleShareLogic", "b", baseDirectory)
         self.c = C(self.r)
         self.a = A(self.c)
 
@@ -30,7 +32,7 @@ class TestAnalyzer(TestCase):
         res2 = self.a.toContextNames(res1)
         count = 0
         for r in res2:
-            for j in u.listToCountList(r):
+            for j in listToCountList(r):
                 count += 1
         self.assertEqual(count, 83)
 
