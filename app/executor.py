@@ -26,23 +26,21 @@ paths = {
     "CHITCHAT":"{baseDirectory}/out/production/contextprocessor/:{baseDirectory}/out/production/contextsummary/".format(baseDirectory=baseDirectory)
 }
 
-configFilePath="/Users/smcho/Desktop/code/ContextSharingSimulation/experiment/simulation/bookfair/SimpleShareLogic/simple/output/configs/cj.txt"
 
-def runSimulation(simulationName, configuration):
-    backup = os.chdir(simulationDirectory)
-    for summaryType in ["j","l","b"]:
-        cmd = ['java', '-Xmx512M', '-cp', "{HOME}:{LIBS}:{SCALA}:{CHITCHAT}".format(**paths), 'core.DTNSim', \
-           '-b', '1', configFilePath]
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-        #print cmd
+def runSimulation(configFilePath):
 
-        for line in iter(p.stdout.readline, ''):
-            print line,
-            sys.stdout.flush()
-        p.wait()
+    backup = os.getcwd()
+    os.chdir(simulationDirectory)
+    cmd = ['java', '-Xmx512M', '-cp', "{HOME}:{LIBS}:{SCALA}:{CHITCHAT}".format(**paths), 'core.DTNSim', \
+       '-b', '1', configFilePath]
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    for line in iter(p.stdout.readline, ''):
+        print line,
+        sys.stdout.flush()
+    p.wait()
 
-        #output = subprocess.check_output(cmd)
     os.chdir(backup)
 
 if __name__ == "__main__":
-    runSimulation("open_air_book_fair", "c")
+    configFilePath="/Users/smcho/Desktop/code/ContextSharingSimulation/experiment/simulation/bookfair/SimpleShareLogic/simple/output/configs/cj.txt"
+    runSimulation(configFilePath)
