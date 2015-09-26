@@ -49,6 +49,13 @@ that will be the input to the simulator.
 
 ### Output directories
 
-* configs - This is where the ONE simulator configuration is dynamcially generated
 * results - This is where the SIMULATION results are stored in JSON format
+* configs - This is where the ONE simulator configuration is dynamcially generated
 * reports - This is where the Analysis results are stored in JSON format
+
+#### Results directory
+
+The JSON file name is based on values in control file values + summaryType.
+
+
+

@@ -1,19 +1,19 @@
 __author__ = 'smcho'
 
 import json
-from config import *
+
+from util.config import *
+
 
 class Reader:
-    def __init__(self, simulationName, strategy, summaryType, baseDirectory):
+    def __init__(self, simulationName, strategy, id, baseDirectory = None):
         self.simulationName = simulationName
         self.strategy = strategy
-        self.summaryType = summaryType
-        self.baseDirectory = baseDirectory
-
-        self.config = Config(baseDirectory)
+        self.id = id
+        self.path = Path(simulationName, strategy, id, baseDirectory)
 
         # 1. get the result file path, and load the JSON into map
-        self.filePath = self.config.getResultFilePath(simulationName, strategy, summaryType)
+        self.filePath = self.path.getResultsFilePath()
         self.jsonMap = self.loadJSON()
 
         # 2. get the configuration map (the c.txt file) and load it inot configMap
