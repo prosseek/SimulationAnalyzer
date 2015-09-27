@@ -14,7 +14,23 @@ class Path(object):
         self.simulationName = simulationName
         self.strategy = strategy
         self.id = id
+        self.preConditionCheck()
 
+    def preConditionCheck(self):
+        """
+        This method checks if all the directories or files are existed
+        :return:
+        """
+        for d in [
+                  self.getGroupsFilePath(),
+                  self.getControlDirectory(),
+                  self.getContextDirectory(),
+                  self.getConfigDirectory(),
+                  self.getReportDirectory(),
+                  self.getResultDirectory()]:
+            assert os.path.exists(d), "Path does not exist %s" % d
+
+    ############ baseDirectory
     @staticmethod
     def getBaseDirectory():
         return Path.baseDirectory
@@ -23,27 +39,44 @@ class Path(object):
     def setBaseDirectory(bd):
         baseDirectory = bd
 
-    def getResultsDirectory(self):
-        return self.baseDirectory + "/output/results"
+    ############ id and input/output/control directory
+    def getIdDirectory(self):
+        return self.baseDirectory + "/%s/%s/%s/" % (self.simulationName, self.strategy, self.id)
 
-    def getResultsFilePath(self, controlDictionary):
-        pass
+    def getControlDirectory(self):
+        return self.getIdDirectory() + "control/"
+
+    def getContextDirectory(self):
+        return self.getIdDirectory() + "input/context/"
+
+    def getResultDirectory(self):
+        return self.getIdDirectory() + "output/result/"
+
+    def getReportDirectory(self):
+        return self.getIdDirectory() + "output/report/"
+
+    def getConfigDirectory(self):
+        return self.getIdDirectory() + "output/report/"
+
+    ############ id and input/output/control directory
+    def getGroupsFilePath(self):
+        return self.getContextDirectory() + "../groups.txt"
 
     def getConfigurationFilePath(self, controlDictionary):
         simulationDirectory = Path.getBaseDirectory() + "/{}".format(self.simulationName)
         abspath = simulationDirectory + "/c.txt"
         return abspath
 
-def getResultFilePath(simulationName, strategy, summaryType):
-    simulationDirectory = Path.getBaseDirectory() + "/{}".format(simulationName)
-    resultDirectory = simulationDirectory + "/results/"
-
-    abspath = os.path.abspath("{resultDirectory}/result_smcho.{strategy}_{summaryType}.json".format(
-        resultDirectory = resultDirectory, strategy = strategy, summaryType = summaryType))
-    return abspath
-
-def getConfigurationFilePath(simulationName):
-    simulationDirectory = Path.getBaseDirectory() + "/{}".format(simulationName)
-    abspath = simulationDirectory + "/c.txt"
-    return abspath
+# def getResultFilePath(simulationName, strategy, summaryType):
+#     simulationDirectory = Path.getBaseDirectory() + "/{}".format(simulationName)
+#     resultDirectory = simulationDirectory + "/results/"
+#
+#     abspath = os.path.abspath("{resultDirectory}/result_smcho.{strategy}_{summaryType}.json".format(
+#         resultDirectory = resultDirectory, strategy = strategy, summaryType = summaryType))
+#     return abspath
+#
+# def getConfigurationFilePath(simulationName):
+#     simulationDirectory = Path.getBaseDirectory() + "/{}".format(simulationName)
+#     abspath = simulationDirectory + "/c.txt"
+#     return abspath
 

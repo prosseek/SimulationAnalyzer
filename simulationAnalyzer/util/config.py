@@ -1,9 +1,10 @@
-from simulationAnalyzer.util.path import *
+from path import *
+from property import *
 
 def writeConfigurationFile(simulationFilePath):
     pass
 
-def readConfigurationFile(simulationName):
+def readConfigurationFile(propertyFilePath):
     """
     From simulation name, returns the configuration in a map
 
@@ -35,19 +36,25 @@ def readConfigurationFile(simulationName):
                 return float(value)
             except ValueError:
                 return value # string
+    result = {}
+    p = Property(propertyFilePath)
+    d = p.read() # returns a dictionary
+    for key in d:
+        result[key] = getValue(d[key])
+    return result
 
-    c = getConfigurationFilePath(simulationName)
-    with open(c, "r") as f:
-        lines = f.readlines()
-        f.close()
-
-    map = {}
-    for line in lines:
-        line = line.strip()
-        if len(line) == 0: continue
-        if line.startswith("#"): continue
-
-        if "=" in line:
-            (key, value) = line.split("=")
-            map[key.strip()] = getValue(value.strip())
-    return map
+    # c = getConfigurationFilePath(simulationName)
+    # with open(c, "r") as f:
+    #     lines = f.readlines()
+    #     f.close()
+    #
+    # map = {}
+    # for line in lines:
+    #     line = line.strip()
+    #     if len(line) == 0: continue
+    #     if line.startswith("#"): continue
+    #
+    #     if "=" in line:
+    #         (key, value) = line.split("=")
+    #         map[key.strip()] = getValue(value.strip())
+    # return map
