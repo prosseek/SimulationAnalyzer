@@ -19,10 +19,6 @@ class Generator(object):
         #print self.control
 
     def create(self):
-        nameFromDict = Name.dictToName(self.control)
-        groupsFilePath = self.path.getGroupsFilePath()
-        iteration = int(self.control["iteration"])
-
         if "summaryType" not in self.control:
             summaryType = "all"
         else:
@@ -36,6 +32,12 @@ class Generator(object):
         control = copy.deepcopy(self.control)
         if "summaryType" in self.control:
             del control["summaryType"]
+
+        # The summaryType should not be in the filePath, so use control that removes it.
+        groupsFilePath = self.path.getGroupsFilePath()
+        iteration = int(control["iteration"])
+        nameFromDict = Name.dictToName(control)
+
         control["simulationName"] = self.path.getSimulationName()
         control["strategy"] = self.path.getStrategy()
         control["id"] = self.path.getId()
