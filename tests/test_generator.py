@@ -12,4 +12,4 @@ class TestGenerator(TestCase):
       self.g = Generator(self.p, controlName)
 
   def test_create(self):
-      pass
+      self.g.create()

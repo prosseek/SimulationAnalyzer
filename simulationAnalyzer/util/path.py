@@ -39,6 +39,16 @@ class Path(object):
     def setBaseDirectory(bd):
         baseDirectory = bd
 
+    ############ properties
+    def getSimulationName(self):
+        return self.simulationName
+
+    def getStrategy(self):
+        return self.strategy
+
+    def getId(self):
+        return self.id
+
     ############ id and input/output/control directory
     def getIdDirectory(self):
         return self.baseDirectory + "/%s/%s/%s/" % (self.simulationName, self.strategy, self.id)
@@ -62,7 +72,7 @@ class Path(object):
         return self.getOutputDirectory() + "report/"
 
     def getConfigDirectory(self):
-        return self.getOutputDirectory() + "report/"
+        return self.getOutputDirectory() + "config/"
 
     ############ id and input/output/control directory
 

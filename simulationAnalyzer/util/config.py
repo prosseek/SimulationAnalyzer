@@ -2,36 +2,36 @@ from path import *
 from property import *
 
 template = """\
-    ##################### CONTROL FOR SIMULATION
-    btInterface.transmitRange = {transmitRange}
-    Scenario.endTime = {endTime}
-    ContextSummary.summaryType = {summaryType}
+##################### CONTROL FOR SIMULATION
+btInterface.transmitRange = {transmitRange}
+Scenario.endTime = {endTime}
+ContextSummary.summaryType = {summaryType}
 
-    ##################### SIMULATION CONTROL
-    Scenario.name = {simulationName}
-    Scenario.simulateConnections = true
-    Scenario.updateInterval = 0.01
+##################### SIMULATION CONTROL
+Scenario.name = {simulationName}
+Scenario.simulateConnections = true
+Scenario.updateInterval = 0.01
 
-    # Define new application
-    contextSharingApp.type = ContextSharingApplication
+# Define new application
+contextSharingApp.type = ContextSharingApplication
 
-    # Set Ping app for all nodes
-    Group.nrofApplications = 1
-    Group.application1 = contextSharingApp
+# Set Ping app for all nodes
+Group.nrofApplications = 1
+Group.application1 = contextSharingApp
 
-    # Add report for Context Sharing App
-    Report.nrofReports = 2
-    Report.report2 = ContextSharingAppReporter
+# Add report for Context Sharing App
+Report.nrofReports = 2
+Report.report2 = ContextSharingAppReporter
 
-    #################### OTHER STUP
-    MovementModel.warmup = 10
+#################### OTHER STUP
+MovementModel.warmup = 10
 
-    ##################### DIRECTORY & STRATEGY
-    # ContextSummary storage directory
-    ContextSummary.directory = {directory}
-    # Sharing strategy
-    ContextSummary.strategy = smcho.{strategy}
-    """
+##################### DIRECTORY & STRATEGY
+# ContextSummary storage directory
+ContextSummary.directory = "{directory}"
+# Sharing strategy
+ContextSummary.strategy = smcho.{strategy}
+"""
 
 def writeConfigurationFile(destinationFilePath, groupsFilePath, control):
     """
@@ -51,10 +51,14 @@ def writeConfigurationFile(destinationFilePath, groupsFilePath, control):
     :return:
     """
     def preconditionCheck(control):
+        # I don't use iteration/id in the template, but it is given from control
         names = ["simulationName", "strategy", "transmitRange","endTime",\
-                 "summaryType", "directory"]
+                 "summaryType", "directory", \
+                 "iteration", "id"]
         for key in control:
-            assert key in names
+            if not (key in names):
+                print control
+                raise Exception("%s not in names" % key)
 
     preconditionCheck(control)
     with open(groupsFilePath) as f:
@@ -63,7 +67,9 @@ def writeConfigurationFile(destinationFilePath, groupsFilePath, control):
     headers = template.format(**control)
 
     with open(destinationFilePath, "w") as f:
-        f.write(headers + groups)
+        f.write(headers + "\n\n#--------------------\n# GROUP CONFIGURATION COPY\n\n" + groups)
+
+    return destinationFilePath
 
 def readConfigurationFile(propertyFilePath):
     """

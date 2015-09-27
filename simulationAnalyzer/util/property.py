@@ -31,5 +31,6 @@ class Property(object):
 
     def read(self):
         cp = ConfigParser.SafeConfigParser()
+        cp.optionxform = str
         cp.readfp(FakeSecHead(open(self.controlFilePath)))
         return dict(cp.items('asection'))

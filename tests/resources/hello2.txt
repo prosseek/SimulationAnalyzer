@@ -1,0 +1,3 @@
+transmitRange = 50
+endTime = 1000
+iteration = 1
