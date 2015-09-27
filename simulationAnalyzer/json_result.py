@@ -3,10 +3,13 @@ __author__ = 'smcho'
 import json
 import os
 
+from util.name import *
+
 class JSONResult(object):
     def __init__(self, JSONFilePath):
         self.JSONFilePath = JSONFilePath
         self.result = self.loadJSON()
+        self.trait = Name.resultFilePathToDict(JSONFilePath)
 
     def getHostToTuplesMap(self):
         return self.result['hostToTuplesMap']
