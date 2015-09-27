@@ -1,8 +1,69 @@
 from path import *
 from property import *
 
-def writeConfigurationFile(simulationFilePath):
-    pass
+template = """\
+    ##################### CONTROL FOR SIMULATION
+    btInterface.transmitRange = {transmitRange}
+    Scenario.endTime = {endTime}
+    ContextSummary.summaryType = {summaryType}
+
+    ##################### SIMULATION CONTROL
+    Scenario.name = {simulationName}
+    Scenario.simulateConnections = true
+    Scenario.updateInterval = 0.01
+
+    # Define new application
+    contextSharingApp.type = ContextSharingApplication
+
+    # Set Ping app for all nodes
+    Group.nrofApplications = 1
+    Group.application1 = contextSharingApp
+
+    # Add report for Context Sharing App
+    Report.nrofReports = 2
+    Report.report2 = ContextSharingAppReporter
+
+    #################### OTHER STUP
+    MovementModel.warmup = 10
+
+    ##################### DIRECTORY & STRATEGY
+    # ContextSummary storage directory
+    ContextSummary.directory = {directory}
+    # Sharing strategy
+    ContextSummary.strategy = smcho.{strategy}
+    """
+
+def writeConfigurationFile(destinationFilePath, groupsFilePath, control):
+    """
+    simulationName
+    strategy
+
+    transmitRange
+    endTime
+
+    summaryType
+
+    directory
+
+    :param destinationFilePath:
+    :param groupsFilePath:
+    :param control:
+    :return:
+    """
+    def preconditionCheck(control):
+        names = ["simulationName", "strategy", "transmitRange","endTime",\
+                 "summaryType", "directory"]
+        for key in control:
+            assert key in names
+
+    preconditionCheck(control)
+    with open(groupsFilePath) as f:
+        groups = f.read()
+
+    headers = template.format(**control)
+
+    with open(destinationFilePath, "w") as f:
+        f.write(headers + groups)
 
 def readConfigurationFile(propertyFilePath):
     """

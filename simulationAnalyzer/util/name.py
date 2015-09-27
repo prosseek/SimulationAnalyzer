@@ -1,28 +1,35 @@
 __author__ = 'smcho'
 
-def dictToName(dict):
-    """
-    Given dictionary returns the name based on it
+class Name(object):
 
-    :param dict:
-    :return:
-    """
-    keys = sorted(dict.keys())
+    def __init__(self):
+        pass
 
-    result = ''
-    for key in keys:
-        result += '{}_{}!'.format(key, dict[key])
-    return result[:-1]
+    @staticmethod
+    def dictToName(dict):
+        """
+        Given dictionary returns the name based on it
 
-def nameToDict(str):
-    result = {}
-    splitted = str.split("!")
-    for s in splitted:
-        (key, value) = s.split("_")
-        try:
-            v = int(value)
-        except ValueError:
-            v = value
-        result[key] = v
+        :param dict:
+        :return:
+        """
+        keys = sorted(dict.keys())
 
-    return result
+        result = ''
+        for key in keys:
+            result += '{}_{}!'.format(key, dict[key])
+        return result[:-1]
+
+    @staticmethod
+    def nameToDict(str):
+        result = {}
+        splitted = str.split("!")
+        for s in splitted:
+            (key, value) = s.split("_")
+            try:
+                v = int(value)
+            except ValueError:
+                v = value
+            result[key] = v
+
+        return result

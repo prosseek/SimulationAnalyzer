@@ -7,7 +7,7 @@ class Path(object):
     defaultBaseDirectory = "/Users/smcho/Desktop/code/ContextSharingSimulation/experiment/simulation/"
     baseDirectory = defaultBaseDirectory
 
-    def __init__(self, simulationName, strategy, id, baseDirectory):
+    def __init__(self, simulationName, strategy, id, baseDirectory = None):
         if baseDirectory is not None:
             Path.baseDirectory = baseDirectory
 
@@ -43,24 +43,32 @@ class Path(object):
     def getIdDirectory(self):
         return self.baseDirectory + "/%s/%s/%s/" % (self.simulationName, self.strategy, self.id)
 
+    def getInputDirectory(self):
+        return self.getIdDirectory() + "input/"
+
+    def getOutputDirectory(self):
+        return self.getIdDirectory() + "output/"
+
     def getControlDirectory(self):
         return self.getIdDirectory() + "control/"
 
     def getContextDirectory(self):
-        return self.getIdDirectory() + "input/context/"
+        return self.getInputDirectory() + "context/"
 
     def getResultDirectory(self):
-        return self.getIdDirectory() + "output/result/"
+        return self.getOutputDirectory() + "result/"
 
     def getReportDirectory(self):
-        return self.getIdDirectory() + "output/report/"
+        return self.getOutputDirectory() + "report/"
 
     def getConfigDirectory(self):
-        return self.getIdDirectory() + "output/report/"
+        return self.getOutputDirectory() + "report/"
 
     ############ id and input/output/control directory
+
+
     def getGroupsFilePath(self):
-        return self.getContextDirectory() + "../groups.txt"
+        return self.getInputDirectory() + "groups.txt"
 
     def getConfigurationFilePath(self, controlDictionary):
         simulationDirectory = Path.getBaseDirectory() + "/{}".format(self.simulationName)
