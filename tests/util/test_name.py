@@ -10,9 +10,9 @@ d = {
 }
 expected = "endTime_10000!iteration_1!transmitRange_50"
 
-class TestDictToName(TestCase):
+class TestName(TestCase):
     def test_dictToName(self):
-        self.assertEqual(expected, dictToName(d))
+        self.assertEqual(expected, Name.dictToName(d))
 
     def test_nameToDict(self):
-        self.assertEqual(nameToDict(expected), d)
+        self.assertEqual(Name.nameToDict(expected), d)

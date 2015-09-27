@@ -28,7 +28,9 @@ MovementModel.warmup = 10
 
 ##################### DIRECTORY & STRATEGY
 # ContextSummary storage directory
-ContextSummary.directory = "{directory}"
+# directory where the contexts are located
+ContextSummary.contextDirectory = {contextDirectory}
+ContextSummary.resultFilePath = {resultFilePath}
 # Sharing strategy
 ContextSummary.strategy = smcho.{strategy}
 """
@@ -51,13 +53,14 @@ def writeConfigurationFile(destinationFilePath, groupsFilePath, control):
     :return:
     """
     def preconditionCheck(control):
+
         # I don't use iteration/id in the template, but it is given from control
         names = ["simulationName", "strategy", "transmitRange","endTime",\
-                 "summaryType", "directory", \
+                 "summaryType", "contextDirectory", "resultFilePath", \
                  "iteration", "id"]
         for key in control:
             if not (key in names):
-                print control
+                print key, key in names, control
                 raise Exception("%s not in names" % key)
 
     preconditionCheck(control)

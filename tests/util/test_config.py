@@ -11,4 +11,4 @@ class TestConfig(TestCase):
         filePath = getTestResourceDirectory() + "hello.txt"
         p = readConfigurationFile(filePath)
         self.assertEqual(49, len(p))
-        self.assertEqual(p['group4.worldsize'],[5000, 5000])
+        self.assertEqual(p['Group4.worldSize'],[5000, 5000])
