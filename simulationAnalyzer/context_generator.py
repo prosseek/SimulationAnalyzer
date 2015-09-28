@@ -1,6 +1,6 @@
 __author__ = 'smcho'
 
-from simulationAnalyzer.host_base_generator import *
+from simulationAnalyzer.config_base_generator import *
 from simulationAnalyzer.util.group_parser import *
 import glob
 import shutil
@@ -13,7 +13,7 @@ q = 16
 complete = 0
 """
 
-class ContextGenerator(HostBaseGenerator):
+class ContextGenerator(ConfigBaseGenerator):
 
     def __init__(self, simulationName, strategy, id):
         super(ContextGenerator, self).__init__(simulationName, strategy, id)

@@ -26,11 +26,10 @@ class FakeSecHead(object):
 
 class Property(object):
 
-    def __init__(self, controlFilePath):
-        self.controlFilePath = controlFilePath
-
-    def read(self):
+    # def __init__(self, controlFilePath):
+    #     self.controlFilePath = controlFilePath
+    def read(self, controlFilePath):
         cp = ConfigParser.SafeConfigParser()
         cp.optionxform = str
-        cp.readfp(FakeSecHead(open(self.controlFilePath)))
+        cp.readfp(FakeSecHead(open(controlFilePath)))
         return dict(cp.items('asection'))
