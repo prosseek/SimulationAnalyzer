@@ -28,9 +28,13 @@ class ContextGenerator(Generator):
                 self.marketContext = json
 
         self.contextDirectory = self.path.getContextDirectory()
+        self.defautlBufferSizeFilePath = self.path.getDefaultBufferSizeFilePath()
+
         self.groupParser = GroupParser(simulationName, strategy, id)
         self.groupCount = self.groupParser.getHostCount()
         self.hostCount = self.groupParser.getHostCount()
+
+        #self.create()
 
     def create(self):
         for i in range(self.hostCount):
@@ -48,3 +52,6 @@ class ContextGenerator(Generator):
             configFilePath = self.contextDirectory + contextName + ".conf"
             with open(configFilePath, "w") as f:
                 f.write(config)
+
+        # finally copy the default_buffer_size into context directory
+        shutil.copy(self.defautlBufferSizeFilePath, self.contextDirectory)
