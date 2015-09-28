@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from simulationAnalyzer.util.groupsParser import *
+from simulationAnalyzer.util.group_parser import *
 
 __author__ = 'smcho'
 

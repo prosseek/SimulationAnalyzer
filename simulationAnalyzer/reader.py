@@ -2,7 +2,7 @@ __author__ = 'smcho'
 
 import glob
 
-from util.groupsParser import *
+from util.group_parser import *
 from json_result import *
 
 class Reader:
