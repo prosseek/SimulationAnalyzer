@@ -40,7 +40,7 @@ class Config(Property):
     # def __init__(self, controlFilePath):
     #     super(self.__class__, self).__init__(controlFilePath)
 
-    def writeConfigurationFile(self, groupsFilePath, control):
+    def writeConfigurationFile(self, controlFilePath, groupsFilePath, control):
         """
         simulationName
         strategy
@@ -74,12 +74,12 @@ class Config(Property):
 
         headers = template.format(**control)
 
-        with open(self.controlFilePath, "w") as f:
+        with open(controlFilePath, "w") as f:
             f.write(headers + "\n\n#--------------------\n# GROUP CONFIGURATION COPY\n\n" + groups)
 
-        return self.controlFilePath
+        return controlFilePath
 
-    def readConfigurationFile(self): # propertyFilePath):
+    def readConfigurationFile(self, propertyFilePath):
         """
         From simulation name, returns the configuration in a map
 
@@ -112,23 +112,7 @@ class Config(Property):
                 except ValueError:
                     return value # string
         result = {}
-        d = self.read() # returns a dictionary
+        d = self.read(propertyFilePath) # returns a dictionary
         for key in d:
             result[key] = getValue(d[key])
         return result
-
-    # c = getConfigurationFilePath(simulationName)
-    # with open(c, "r") as f:
-    #     lines = f.readlines()
-    #     f.close()
-    #
-    # map = {}
-    # for line in lines:
-    #     line = line.strip()
-    #     if len(line) == 0: continue
-    #     if line.startswith("#"): continue
-    #
-    #     if "=" in line:
-    #         (key, value) = line.split("=")
-    #         map[key.strip()] = getValue(value.strip())
-    # return map

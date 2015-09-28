@@ -33,3 +33,9 @@ class Property(object):
         cp.optionxform = str
         cp.readfp(FakeSecHead(open(controlFilePath)))
         return dict(cp.items('asection'))
+
+    def write(self, controlFilePath, dictionary):
+        keys = sorted(dictionary.keys())
+        with open(controlFilePath, "w") as f:
+            for key in keys:
+                f.write("%s:%s\n" % (key, str(dictionary[key])))

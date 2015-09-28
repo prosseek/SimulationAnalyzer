@@ -11,21 +11,19 @@ class BufferSizeGenerator(ConfigBaseGenerator):
 
     def __init__(self, simulationName, strategy, id):
         super(BufferSizeGenerator, self).__init__(simulationName, strategy, id)
-        self.defautlBufferSizeFilePath
+        self.defaultBufferSizeMap = self.config.readConfigurationFile(self.defaultBufferSizeFilePath)
 
     def create(self):
+        dictionary = copy.deepcopy(self.defaultBufferSizeMap)
         for i in range(self.hostCount):
+            groupNumber = self.groupParser.hostToGroup(i)
             groupIDIndex = self.groupParser.hostToGroupIDIndex(i)
-            if groupIDIndex[0].startswith("s"):
-                #print groupIDIndex
-                sourceFilePath = self.marketContext
-
-            else:
-                sourceFilePath = random.sample(self.samples, 1)[0]
-
             contextName = self.groupParser.groupIDIndexToContext(*groupIDIndex)
-            jsonContextFilePath = self.contextDirectory + contextName + ".json"
-            shutil.copy(sourceFilePath, jsonContextFilePath)
-            configFilePath = self.contextDirectory + contextName + ".conf"
-            with open(configFilePath, "w") as f:
-                f.write("")
+
+            if not contextName in dictionary:
+                defaultValue = dictionary["default" + str(groupNumber)]
+                dictionary[contextName] = defaultValue
+
+        configFilePath = self.contextDirectory + self.getDefaultBufferSizeFileName
+        with open(configFilePath, "w") as f:
+            self.config.write(configFilePath, dictionary)

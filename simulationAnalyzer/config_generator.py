@@ -1,17 +1,14 @@
 __author__ = 'smcho'
 
 from simulationAnalyzer.util.config import *
-from simulationAnalyzer.generator import *
+from simulationAnalyzer.config_base_generator import *
 
-class ConfigGenerator(Generator):
+class ConfigGenerator(ConfigBaseGenerator):
 
     def __init__(self, simulationName, strategy, id, controlName):
-
         super(self.__class__, self).__init__(simulationName, strategy, id)
-
         controlFilePath = self.path.getControlDirectory() + controlName
-        p = Config(controlFilePath)
-        self.control = p.read()
+        self.control = self.config.read(controlFilePath)
 
     def create(self):
         if "summaryType" not in self.control:
@@ -54,8 +51,7 @@ class ConfigGenerator(Generator):
 
                 control["summaryType"] = s
                 control["resultFilePath"] = resultFilePath
-                c = Config(saveConfigFilePath)
-                r = c.writeConfigurationFile(groupsFilePath, control)
+                r = self.config.writeConfigurationFile(saveConfigFilePath, groupsFilePath, control)
                 result.append(r)
 
         return result

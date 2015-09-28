@@ -13,10 +13,19 @@ q = 16
 complete = 0
 """
 
-class ContextGenerator(ConfigBaseGenerator):
+class ContextGenerator(Generator):
 
     def __init__(self, simulationName, strategy, id):
         super(ContextGenerator, self).__init__(simulationName, strategy, id)
+        self.samples = []
+        self.marketContext = None
+        jsonFilePaths = glob.glob(self.path.getContextPoolDirectory() + "*.json")
+        # select only s1 .. s4
+        for json in jsonFilePaths:
+            if json.split(os.sep)[-1].startswith("s"):
+                self.samples.append(json)
+            else:
+                self.marketContext = json
 
     def create(self):
         for i in range(self.hostCount):

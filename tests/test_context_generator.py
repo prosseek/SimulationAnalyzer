@@ -28,5 +28,5 @@ class TestContextGenerator(TestCase):
         self.g.create()
         files = glob.glob(contextDir + "*.*")
 
-        expected = self.gp.getHostCount() * 2
+        expected = self.g.hostCount * 2
         self.assertEqual(len(files), expected)

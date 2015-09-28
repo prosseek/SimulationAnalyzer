@@ -9,7 +9,7 @@ __author__ = 'smcho'
 class TestConfig(TestCase):
     def test_read(self):
         filePath = getTestResourceDirectory() + "hello.txt"
-        p = Config(filePath)
-        result = p.readConfigurationFile()
+        p = Config()
+        result = p.readConfigurationFile(filePath)
         self.assertEqual(49, len(result))
         self.assertEqual(result['Group4.worldSize'],[5000, 5000])

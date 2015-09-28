@@ -15,8 +15,8 @@ class GroupParser(object):
 
         preconditionCheck()
 
-        c = Config(self.groupsFilePath)
-        self.config = c.readConfigurationFile()
+        c = Config()
+        self.config = c.readConfigurationFile(self.groupsFilePath)
 
         # 1. get the configuration map (the c.txt file) and load it inot configMap
         self.groupIdAccList = self.createGroupIdAccList()

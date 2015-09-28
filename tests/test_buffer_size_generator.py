@@ -6,3 +6,4 @@ __author__ = 'smcho'
 class TestBufferSizeGenerator(TestCase):
     def test_create(self):
         self.g = BufferSizeGenerator("unittest", "SimpleShareLogic", "dynamic")
+        self.g.create()

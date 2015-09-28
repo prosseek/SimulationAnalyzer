@@ -80,9 +80,11 @@ class Path(object):
         return self.getOutputDirectory() + "config/"
 
     ############ id and input/output/control directory
+    def getDefaultBufferSizeFileName(self):
+        return "default_buffer_size.txt"
 
     def getDefaultBufferSizeFilePath(self):
-        return self.getInputDirectory() + "default_buffer_size.txt"
+        return self.getInputDirectory() + self.getDefaultBufferSizeFileName()
 
     def getGroupsFilePath(self):
         return self.getInputDirectory() + "groups.txt"
