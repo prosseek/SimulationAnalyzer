@@ -2,7 +2,7 @@ __author__ = 'smcho'
 
 from simulationAnalyzer import Reader as R
 from simulationAnalyzer import Converter as C
-from simulationAnalyzer import Analyzer as A
+from simulationAnalyzer import SingleAnalyzer as A
 
 from simulationAnalyzer import getResultFilePath
 

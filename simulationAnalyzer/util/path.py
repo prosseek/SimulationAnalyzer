@@ -25,6 +25,8 @@ class Path(object):
                   self.getGroupsFilePath(),
                   self.getControlDirectory(),
                   self.getContextDirectory(),
+                  self.getContextPoolDirectory(),
+                  self.getDefaultBufferSizeFilePath(),
                   self.getConfigDirectory(),
                   self.getReportDirectory(),
                   self.getResultDirectory()]:
@@ -62,8 +64,11 @@ class Path(object):
     def getControlDirectory(self):
         return self.getIdDirectory() + "control/"
 
+    def getContextPoolDirectory(self):
+        return self.getInputDirectory() + "contextPool/"
+
     def getContextDirectory(self):
-        return self.getInputDirectory() + "context/"
+        return self.getOutputDirectory() + "context/"
 
     def getResultDirectory(self):
         return self.getOutputDirectory() + "result/"
@@ -76,14 +81,17 @@ class Path(object):
 
     ############ id and input/output/control directory
 
+    def getDefaultBufferSizeFilePath(self):
+        return self.getInputDirectory() + "default_buffer_size.txt"
 
     def getGroupsFilePath(self):
         return self.getInputDirectory() + "groups.txt"
 
-    def getConfigurationFilePath(self, controlDictionary):
-        simulationDirectory = Path.getBaseDirectory() + "/{}".format(self.simulationName)
-        abspath = simulationDirectory + "/c.txt"
-        return abspath
+    #
+    # def getConfigurationFilePath(self, controlDictionary):
+    #     simulationDirectory = Path.getBaseDirectory() + "/{}".format(self.simulationName)
+    #     abspath = simulationDirectory + "/c.txt"
+    #     return abspath
 
 # def getResultFilePath(simulationName, strategy, summaryType):
 #     simulationDirectory = Path.getBaseDirectory() + "/{}".format(simulationName)

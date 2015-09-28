@@ -51,7 +51,7 @@ class Name(object):
         rest = splitted[1:]
         dict = Name.nameToDict("!".join(rest).replace(".json",""))
         dict["summaryType"] = summaryType
-        #dict["iteration"] = iteration
+        dict["maxIteration"] = int(iteration)
         return dict
 
     @staticmethod

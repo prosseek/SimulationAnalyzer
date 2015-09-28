@@ -32,7 +32,7 @@ class TestName(TestCase):
 
     def test_resultFilePathToDict(self):
         self.assertEqual(Name.resultFilePathToDict(resultFile),
-                        {'summaryType': 'b', 'transmitRange': 50, 'endTime': 5000, 'iteration': 2})
+                        {'summaryType': 'b', 'transmitRange': 50, 'endTime': 5000, 'iteration': 2, 'maxIteration':3})
 
     def test_dictToResultFilePath(self):
         input =  {'summaryType': 'b', 'transmitRange': 50, 'endTime': 5000, 'iteration': 2, 'maxIteration':3}

@@ -12,11 +12,10 @@ class Reader:
         self.id = id
 
         self.path = Path(simulationName, strategy, id, baseDirectory)
-        self.groupParser = GroupParser(simulationName, strategy, id, baseDirectory)
 
-        self.jsonMap = self.readAllJSONFiles()
+        self.jsonMap = self.__readAllJSONFiles()
 
-    def readAllJSONFiles(self):
+    def __readAllJSONFiles(self):
         resultDirectory = self.path.getResultDirectory()
         jsonFilePaths = glob.glob(resultDirectory + "*.json")
 
@@ -30,7 +29,20 @@ class Reader:
 
         return result
 
+    def get(self, map):
+        result = []
+        allKeys = self.jsonMap.keys()
 
+        # key can be smaller subset
+        key = frozenset(map.items())
+        for k in allKeys:
+            if key.issubset(k):
+                result.append(self.jsonMap[k])
+
+        return result
+
+    def getPath(self):
+        return self.path
 
 
 

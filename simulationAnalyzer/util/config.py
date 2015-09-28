@@ -35,83 +35,87 @@ ContextSummary.resultFilePath = {resultFilePath}
 ContextSummary.strategy = smcho.{strategy}
 """
 
-def writeConfigurationFile(destinationFilePath, groupsFilePath, control):
-    """
-    simulationName
-    strategy
+class Config(Property):
+    #
+    # def __init__(self, controlFilePath):
+    #     super(self.__class__, self).__init__(controlFilePath)
 
-    transmitRange
-    endTime
+    def writeConfigurationFile(self, groupsFilePath, control):
+        """
+        simulationName
+        strategy
 
-    summaryType
+        transmitRange
+        endTime
 
-    directory
+        summaryType
 
-    :param destinationFilePath:
-    :param groupsFilePath:
-    :param control:
-    :return:
-    """
-    def preconditionCheck(control):
+        directory
 
-        # I don't use iteration/id in the template, but it is given from control
-        names = ["simulationName", "strategy", "transmitRange","endTime",\
-                 "summaryType", "contextDirectory", "resultFilePath", \
-                 "iteration", "id"]
-        for key in control:
-            if not (key in names):
-                print key, key in names, control
-                raise Exception("%s not in names" % key)
+        :param destinationFilePath:
+        :param groupsFilePath:
+        :param control:
+        :return:
+        """
+        def preconditionCheck(control):
 
-    preconditionCheck(control)
-    with open(groupsFilePath) as f:
-        groups = f.read()
+            # I don't use iteration/id in the template, but it is given from control
+            names = ["simulationName", "strategy", "transmitRange","endTime",\
+                     "summaryType", "contextDirectory", "resultFilePath", \
+                     "iteration", "id"]
+            for key in control:
+                if not (key in names):
+                    print key, key in names, control
+                    raise Exception("%s not in names" % key)
 
-    headers = template.format(**control)
+        preconditionCheck(control)
+        with open(groupsFilePath) as f:
+            groups = f.read()
 
-    with open(destinationFilePath, "w") as f:
-        f.write(headers + "\n\n#--------------------\n# GROUP CONFIGURATION COPY\n\n" + groups)
+        headers = template.format(**control)
 
-    return destinationFilePath
+        with open(self.controlFilePath, "w") as f:
+            f.write(headers + "\n\n#--------------------\n# GROUP CONFIGURATION COPY\n\n" + groups)
 
-def readConfigurationFile(propertyFilePath):
-    """
-    From simulation name, returns the configuration in a map
+        return self.controlFilePath
 
-    For example:
+    def readConfigurationFile(self): # propertyFilePath):
+        """
+        From simulation name, returns the configuration in a map
 
-    MovementModel.warmup = 10
-    Scenario.endTime = 10000
-    ContextSummary.summaryType = b
+        For example:
 
-    map['MovementModel.warmup'] = 10
-    map['Scenario.endTime'] = 10000
-    map['ContextSummary.summaryType'] = 'b'
+        MovementModel.warmup = 10
+        Scenario.endTime = 10000
+        ContextSummary.summaryType = b
 
-    """
-    def getValue(value):
-        if "[" in value:
-            value = value[1:-1]
+        map['MovementModel.warmup'] = 10
+        map['Scenario.endTime'] = 10000
+        map['ContextSummary.summaryType'] = 'b'
 
-        if "," in value:
+        """
+        def getValue(value):
+            if "[" in value:
+                value = value[1:-1]
+
+            if "," in value:
+                try:
+                    return [int(x.strip()) for x in value.split(",")]
+                except ValueError:
+                    return [float(x.strip()) for x in value.split(",")]
+
             try:
-                return [int(x.strip()) for x in value.split(",")]
+                return int(value)
             except ValueError:
-                return [float(x.strip()) for x in value.split(",")]
-
-        try:
-            return int(value)
-        except ValueError:
-            try:
-                return float(value)
-            except ValueError:
-                return value # string
-    result = {}
-    p = Property(propertyFilePath)
-    d = p.read() # returns a dictionary
-    for key in d:
-        result[key] = getValue(d[key])
-    return result
+                try:
+                    return float(value)
+                except ValueError:
+                    return value # string
+        result = {}
+        d = self.read() # returns a dictionary
+        for key in d:
+            result[key] = getValue(d[key])
+        return result
 
     # c = getConfigurationFilePath(simulationName)
     # with open(c, "r") as f:

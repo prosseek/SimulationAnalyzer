@@ -2,16 +2,19 @@ __author__ = 'smcho'
 
 import re
 
-class Analyzer(object):
-    def __init__(self, converter):
-        self.converter = converter
-        self.reader = converter.reader
-        self.jsonMap = self.reader.jsonMap
-        self.groupCount = self.reader.groupCount
+class SingleAnalyzer(object):
 
-    def toContextNames(self, contexts):
+    def __init__(self, groupParser, jsonResult):
+        self.groupParser = groupParser
+        self.jsonResult = jsonResult
+        self.groupCount = self.groupParser.groupCount
+
+    def toGroupNameCount(self, contexts):
         """
-        The contexts from JSON summary (using getContexts) is a list of a lot of contexts,
+        The contexts from JSON summary (using getContexts) is a list of a lot of contexts, i.e.,
+
+        [[0, 0, 0.0, u'g1c0b', 119], [32, 0, 1205.82, u'g2c32b', 29], [18, 0, 106.63, u'g2c18b', 29] ...
+
         they should be organized and be shown in a digestive way.
 
         Given contexts from JSON summary, this function returns the names of contexts
@@ -34,21 +37,24 @@ class Analyzer(object):
         result = {}
         for context in contexts:
             contextName = context[3]
-            (gid, index) = self.converter.contextToGroupIDIndex(contextName)
+            (gid, index) = self.groupParser.contextToGroupIDIndex(contextName)
             if gid not in result:
                 result[gid] = []
             result[gid].append("{}{}".format(gid, index))
 
         res = []
         for c in range(1, self.groupCount + 1):
-            groupId = self.converter.groupToGroupIDMap[c]
-            res.append(sorted(result[groupId], key = lambda i: grp(i)))
+            groupId = self.groupParser.groupToGroupIDMap[c]
+            # Don't forget the case when result does not have the groupId
+            if groupId in result:
+                res.append(sorted(result[groupId], key = lambda i: grp(i)))
 
         return res
 
     def getContexts(self, groupId, index):
         """
         From JSON result, we need to extract the contexts from groupId/index pair.
+
         For example, the first host in the "V" group (v/1) will be translated into context name
         such as g1c0 (first group, first host), as the JSON hosts stores information using the
         context name format.
@@ -57,8 +63,8 @@ class Analyzer(object):
         :param index:
         :return:
         """
-        host = self.converter.groupIDIndexToHost(groupId, index)
-        return self.jsonMap["hostToTuplesMap"][str(host)]
+        host = self.groupParser.groupIDIndexToHost(groupId, index)
+        return self.jsonResult.getHostToTuplesMap()[str(host)]
 
     def showTime(self, finderGroupId1, finderIndex1, groupId2, index2):
         """
@@ -73,7 +79,7 @@ class Analyzer(object):
         """
         try:
             contexts = self.getContexts(finderGroupId1, finderIndex1)
-            searchContextName = self.converter.groupIDIndexToContext(groupId2, index2)
+            searchContextName = self.groupParser.groupIDIndexToContext(groupId2, index2)
 
             result = []
             for c in contexts:
@@ -87,15 +93,15 @@ class Analyzer(object):
 
     def getAllMembers(self):
         # [('v', 1), ('s', 41), ('p', 81), ('ma', 82), ('mb', 83), ('mc', 84), ('md', 85)]
-        tupleList = self.reader.createGroupIdCountList()
+        tupleList = self.groupParser.createGroupIdCountList()
         for (groupId, count) in tupleList:
             for i in range(count):
                 id = i+1
-                yield self.converter.groupIDIndexToContext(groupId, id)
+                yield self.groupParser.groupIDIndexToContext(groupId, id)
 
     def getAllMembersGroupIDIndex(self):
         # [('v', 1), ('s', 41), ('p', 81), ('ma', 82), ('mb', 83), ('mc', 84), ('md', 85)]
-        tupleList = self.reader.createGroupIdCountList()
+        tupleList = self.groupParser.createGroupIdCountList()
         for (groupId, count) in tupleList:
             for i in range(count):
                 id = i+1
@@ -113,14 +119,14 @@ class Analyzer(object):
         """
 
         timeValues = []
-        searchContextName = self.converter.groupIDIndexToContext(groupId, index)
+        searchContextName = self.groupParser.groupIDIndexToContext(groupId, index)
         #print searchContextName
         for fidnerGroupId, finderIndex in self.getAllMembersGroupIDIndex():
             getTime = self.showTime(fidnerGroupId, finderIndex, groupId, index)
             #print fidnerGroupId, finderIndex, getTime[0] if len(getTime) else -1.0
             timeValues.append(getTime[0] if len(getTime) else -1.0)
 
-        totalCount = self.reader.getHostCount() - 1 # exclude self
+        totalCount = self.groupParser.getHostCount() - 1 # exclude self
         coveredCount = len(filter(lambda x: x > 0, timeValues))
         if coveredCount == 0: averageTime = -1
         else: averageTime = sum(filter(lambda x: x > 0, timeValues))/coveredCount

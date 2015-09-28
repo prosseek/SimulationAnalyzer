@@ -1,21 +1,19 @@
 import os
 
 from unittest import TestCase
-from simulationAnalyzer.generator import *
-from simulationAnalyzer.util.path import *
+from simulationAnalyzer.config_generator import *
 
 __author__ = 'smcho'
 
-class TestGenerator(TestCase):
+class TestConfigGenerator(TestCase):
 
   def setUp(self):
-      self.p = Path("unittest", "SimpleShareLogic", "simple")
       controlName = "control1.txt"
-      self.g = Generator(self.p, controlName)
+      self.g = ConfigGenerator("unittest", "SimpleShareLogic", "unittest", controlName)
 
   def test_create(self):
       results = self.g.create()
-      print results
+      #print results
       for r in results:
           self.assertTrue(os.path.exists(r))
 

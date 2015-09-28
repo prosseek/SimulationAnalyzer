@@ -1,3 +1,6 @@
+import glob
+import os
+
 __author__ = 'smcho'
 
 def listToCountList(ls):
@@ -22,3 +25,11 @@ def listToCountList(ls):
        result.append(l)
 
     return result[1:]
+
+# def getJsonFilesInDirectory(directory):
+#     result = []
+#     files = glob.glob(directory + os.sep + "*.json")
+#     for file in files:
+#         file_name = file.split(os.sep)[-1]
+#         result.append((file_name, file))
+#     return result
