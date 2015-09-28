@@ -11,14 +11,14 @@ __author__ = 'smcho'
 class TestContextGenerator(TestCase):
 
     def setUp(self):
-        self.p = Path("unittest", "SimpleShareLogic", "unittest")
-        self.gp = GroupParser("unittest", "SimpleShareLogic", "unittest")
+        self.p = Path("unittest", "SimpleShareLogic", "dynamic")
+        self.gp = GroupParser("unittest", "SimpleShareLogic", "dynamic")
 
         contextDir = self.p.getContextDirectory()
         files = glob.glob(contextDir + "*.*")
         for f in files:
             os.unlink(f)
-        self.g = ContextGenerator("unittest", "SimpleShareLogic", "unittest")
+        self.g = ContextGenerator("unittest", "SimpleShareLogic", "dynamic")
 
 
     def test_create(self):

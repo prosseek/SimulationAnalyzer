@@ -6,17 +6,12 @@ import glob
 import shutil
 import random
 
-config = """\
-m = 0
-k = 3
-q = 16
-complete = 0
-"""
 
-class ContextGenerator(HostBaseGenerator):
+class BufferSizeGenerator(HostBaseGenerator):
 
     def __init__(self, simulationName, strategy, id):
-        super(ContextGenerator, self).__init__(simulationName, strategy, id)
+        super(BufferSizeGenerator, self).__init__(simulationName, strategy, id)
+        self.getDefaultBufferSizeFilePath
 
     def create(self):
         for i in range(self.hostCount):
@@ -34,4 +29,3 @@ class ContextGenerator(HostBaseGenerator):
             configFilePath = self.contextDirectory + contextName + ".conf"
             with open(configFilePath, "w") as f:
                 f.write(config)
-

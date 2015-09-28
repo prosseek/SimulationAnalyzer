@@ -14,7 +14,7 @@ class TestSingleAnalyzer(TestCase):
 
         simulationName = "unittest"
         strategy = "SimpleShareLogic"
-        id = "unittest"
+        id = "fixed"
 
         r = R(simulationName, strategy, id)
         self.gp = GP(simulationName, strategy, id)
@@ -50,15 +50,17 @@ class TestSingleAnalyzer(TestCase):
         for r in res2:
             for j in listToCountList(r):
                 count += 1
-        self.assertEqual(count, 5)
+        self.assertEqual(count, 50)
 
     def test_showTime(self):
         # [8115.7, 8398.18, 8896.23]
         # [3547.41, 5162.04, 5233.88, 7279.64]
         # [4238.11, 4384.16, 6878.71, 8805.98, 9857.51]
-        self.assertTrue(self.a.showTime("v", 1, "ma", 1) == [])
-        self.assertTrue(self.a.showTime("ma", 1, "v", 1) == [])
-        self.assertTrue(self.a.showTime("s", 1, "v", 1)[0] == 4238.11)
+        #print self.a.showTime("v", 1, "ma", 1)
+        #print self.a.showTime("ma", 1, "v", 1)
+        self.assertEqual(self.a.showTime("v", 1, "ma", 1) , [8115.7, 8398.19, 11277.27])
+        self.assertEqual(self.a.showTime("ma", 1, "v", 1) , [5162.04, 7279.64, 10154.13, 13720.45])
+        self.assertEqual(self.a.showTime("s", 1, "v", 1)[0] , 4238.11)
 
     def test_getAllMembers(self):
         count = 0
@@ -67,11 +69,11 @@ class TestSingleAnalyzer(TestCase):
         self.assertEqual(count, self.gp.getHostCount())
 
     def test_getCoveragePercentage(self):
-        self.assertTrue(self.a.getCoveragePercentage('v',1) ==
-                        ('g1c0', 3124.8127083333334, 57.14285714285714, 48, 84))
-        self.assertTrue(self.a.getCoveragePercentage('p',1) ==
-                        ('g3c41', 2778.034285714286, 8.333333333333332, 7, 84))
-        self.assertTrue(self.a.getCoveragePercentage('ma',1) ==
-                        ('g4c81', 3714.7452380952377, 25.0, 21, 84))
-        self.assertTrue(self.a.getCoveragePercentage('mb',1) ==
-                        ('g5c82', 3467.126315789473, 22.61904761904762, 19, 84))
+        self.assertEqual(self.a.getCoveragePercentage('v',1),
+                        ('g1c0', 4562.5636904761905, 100.0, 84, 84))
+        self.assertEqual(self.a.getCoveragePercentage('p',1) ,
+                        ('g3c41', 8292.57073529412, 80.95238095238095, 68, 84))
+        self.assertEqual(self.a.getCoveragePercentage('ma',1) ,
+                        ('g4c81', 7291.358253968254, 75.0, 63, 84))
+        self.assertEqual(self.a.getCoveragePercentage('mb',1) ,
+                        ('g5c82', 7511.417454545453, 65.47619047619048, 55, 84))

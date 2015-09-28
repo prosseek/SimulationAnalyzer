@@ -10,8 +10,8 @@ class TestRunner(TestCase):
 
   def setUp(self):
       controlName = "control1.txt"
-      self.cfg = ConfigGenerator("unittest", "SimpleShareLogic", "unittest", controlName)
-      self.cxg = ContextGenerator("unittest", "SimpleShareLogic", "unittest")
+      self.cfg = ConfigGenerator("unittest", "SimpleShareLogic", "dynamic", controlName)
+      self.cxg = ContextGenerator("unittest", "SimpleShareLogic", "dynamic")
 
       self.r = Runner(self.cfg.getPath())
 
@@ -22,5 +22,5 @@ class TestRunner(TestCase):
 
       configFilePath = results[0]
       # remove this with 'nosetests' test
-      self.r.run(configFilePath)
+      #self.r.run(configFilePath)
 

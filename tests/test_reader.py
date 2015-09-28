@@ -9,7 +9,7 @@ testName = "unittest"
 
 class TestReader(TestCase):
     def setUp(self):
-        self.r = R("unittest", "SimpleShareLogic", "unittest")
+        self.r = R("unittest", "SimpleShareLogic", "fixed")
 
     def test_get(self):
         m = {
@@ -22,11 +22,11 @@ class TestReader(TestCase):
 
         r = self.r.get(m)
 
-        self.assertTrue(len(r) == 1)
+        self.assertEqual(len(r) , 1)
         result = r[0]
 
-        self.assertTrue(len(result.getHostToTuplesMap()) == 83)
-        self.assertTrue(len(result.getSummaries()) == 85)
+        self.assertEqual(len(result.getHostToTuplesMap()) , 83)
+        self.assertEqual(len(result.getSummaries()) , 85)
 
     def test_get2(self):
         # There is no 'iteration' element, so all the iterations will be selectd
@@ -40,5 +40,5 @@ class TestReader(TestCase):
         r = self.r.get(m)
         self.assertTrue(len(r) == 2)
         result = r[0]
-        self.assertTrue(len(result.getHostToTuplesMap()) == 83)
-        self.assertTrue(len(result.getSummaries()) == 85)
+        self.assertEqual(len(result.getHostToTuplesMap()) , 85)
+        self.assertEqual(len(result.getSummaries()) , 85)

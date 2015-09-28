@@ -5,7 +5,7 @@ __author__ = 'smcho'
 
 testName = "unittest"
 strategy = "SimpleShareLogic"
-id = "unittest"
+id = "dynamic"
 baseDirectory = "/Users/smcho/Desktop/code/ContextSharingSimulation/experiment/simulation"
 
 class TestPath(TestCase):

@@ -7,7 +7,7 @@ __author__ = 'smcho'
 
 class TestJSONResult(TestCase):
     def setUp(self):
-        self.p = Path("unittest", "SimpleShareLogic","unittest")
+        self.p = Path("unittest", "SimpleShareLogic","fixed")
         filePath = self.p.getResultDirectory() + "b-2!endTime_5000!iteration_2!transmitRange_50.json"
         self.jsonResult = JSONResult(filePath)
 

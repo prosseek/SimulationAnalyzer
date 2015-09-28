@@ -9,7 +9,7 @@ class TestConfigGenerator(TestCase):
 
   def setUp(self):
       controlName = "control1.txt"
-      self.g = ConfigGenerator("unittest", "SimpleShareLogic", "unittest", controlName)
+      self.g = ConfigGenerator("unittest", "SimpleShareLogic", "dynamic", controlName)
 
   def test_create(self):
       results = self.g.create()

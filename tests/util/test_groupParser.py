@@ -7,7 +7,7 @@ __author__ = 'smcho'
 
 class TestGroupParser(TestCase):
     def setUp(self):
-        self.g = GroupParser("unittest", "SimpleShareLogic", "unittest")
+        self.g = GroupParser("unittest", "SimpleShareLogic", "dynamic")
 
     def test_createGroupToGroupIDMap(self):
         m = self.g.groupToGroupIDMap
