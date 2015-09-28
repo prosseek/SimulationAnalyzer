@@ -1,6 +1,7 @@
 __author__ = 'smcho'
 
 import ConfigParser
+import random
 
 """
 Reads property file in verbatim (no interpretations) using ConfigParser

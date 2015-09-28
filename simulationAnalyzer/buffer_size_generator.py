@@ -14,6 +14,10 @@ class BufferSizeGenerator(ConfigBaseGenerator):
         self.defaultBufferSizeMap = self.config.readConfigurationFile(self.defaultBufferSizeFilePath)
 
     def create(self):
+        def randomize(value, percentage):
+            r = 2.0*(random.random() - 0.5)
+            return value + r*percentage*value
+
         dictionary = copy.deepcopy(self.defaultBufferSizeMap)
         for i in range(self.hostCount):
             groupNumber = self.groupParser.hostToGroup(i)
@@ -22,7 +26,7 @@ class BufferSizeGenerator(ConfigBaseGenerator):
 
             if not contextName in dictionary:
                 defaultValue = dictionary["default" + str(groupNumber)]
-                dictionary[contextName] = defaultValue
+                dictionary[contextName] = randomize(defaultValue, 0.2)
 
         configFilePath = self.contextDirectory + self.getDefaultBufferSizeFileName
         with open(configFilePath, "w") as f:
