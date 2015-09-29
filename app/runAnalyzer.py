@@ -50,19 +50,32 @@ def getResults(id, m):
     else:
         {}
 
+def avg(rs):
+    sum = 0
+    for r in rs:
+        sum += r['st']
+    return sum/len(rs)
+
+
 if __name__ == "__main__":
 
-    for summaryType in ['b','l','j']:
+    for summaryType in ['b', 'l', 'j']:
+        print "Summary Type %s" % summaryType
         times = [1000, 1500, 2000, 5000]
         for t in times:
-            m = {
-                'endTime': 15000,
-                'iteration': 1,
-                'maxIteration':5,
-                'summaryType':summaryType,
-                'transmitRange': 50
-            }
-            print getResults("simple_%d" % t, m)
+            print "Buffer size %d" % t
+            result = []
+            for i in range(5):
+                m = {
+                    'endTime': 15000,
+                    'iteration': i+1,
+                    'maxIteration':5,
+                    'summaryType':summaryType,
+                    'transmitRange': 50
+                }
+                res = getResults("simple_%d" % t, m)
+                result.append(res)
+            print avg(result)
         print "\n\n"
 
 

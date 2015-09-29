@@ -30,7 +30,7 @@ class ContextGenerator(Generator):
     def create(self):
         for i in range(self.hostCount):
             groupIDIndex = self.groupParser.hostToGroupIDIndex(i)
-            if groupIDIndex[0].startswith("s"):
+            if groupIDIndex[0].startswith("s") or groupIDIndex[0].startswith("v"):
                 #print groupIDIndex
                 sourceFilePath = self.marketContext
 

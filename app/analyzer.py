@@ -73,6 +73,26 @@ spread time        &  {json[st]}\%   & {labeled[st]}\%  & {fbf[st]}\% \\\\
     return template
 
 if __name__ == "__main__":
+
+    for summaryType in ['b', 'l', 'j']:
+
+        times = [1000, 1500, 2000, 5000]
+        for t in times:
+            print "Times %d" % t
+            result = []
+            for i in range(5):
+                m = {
+                    'endTime': 15000,
+                    'iteration': i+1,
+                    'maxIteration':5,
+                    'summaryType':summaryType,
+                    'transmitRange': 50
+                }
+                res = getResults("simple_%d" % t, m)
+                result.append(res)
+    print "\n\n"
+
+
     #simulationName = "unittest"
     simulationName = "open_air_book_fair"
 
