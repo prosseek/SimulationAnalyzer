@@ -16,7 +16,7 @@ class BufferSizeGenerator(ConfigBaseGenerator):
     def create(self):
         def randomize(value, percentage):
             r = 2.0*(random.random() - 0.5)
-            return value + r*percentage*value
+            return int(value + r*percentage*value)
 
         dictionary = copy.deepcopy(self.defaultBufferSizeMap)
         for i in range(self.hostCount):

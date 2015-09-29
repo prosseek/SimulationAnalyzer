@@ -11,6 +11,10 @@ class ConfigGenerator(ConfigBaseGenerator):
         self.control = self.config.read(controlFilePath)
 
     def create(self):
+
+        def getRandomInteger():
+            return random.randint(0, 100)
+
         if "summaryType" not in self.control:
             summaryType = "all"
         else:
@@ -51,6 +55,7 @@ class ConfigGenerator(ConfigBaseGenerator):
 
                 control["summaryType"] = s
                 control["resultFilePath"] = resultFilePath
+                control["rngSeed"] = getRandomInteger()
                 r = self.config.writeConfigurationFile(saveConfigFilePath, groupsFilePath, control)
                 result.append(r)
 

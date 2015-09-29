@@ -2,6 +2,7 @@ from path import *
 from property import *
 
 template = """\
+MovementModel.rngSeed = {rngSeed}
 ##################### CONTROL FOR SIMULATION
 btInterface.transmitRange = {transmitRange}
 Scenario.endTime = {endTime}
@@ -62,7 +63,7 @@ class Config(Property):
             # I don't use iteration/id in the template, but it is given from control
             names = ["simulationName", "strategy", "transmitRange","endTime",\
                      "summaryType", "contextDirectory", "resultFilePath", \
-                     "iteration", "id"]
+                     "iteration", "id", "rngSeed"] #MovementModel.rngSeed = 1
             for key in control:
                 if not (key in names):
                     print key, key in names, control
