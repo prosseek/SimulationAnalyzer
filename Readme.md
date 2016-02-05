@@ -1,6 +1,7 @@
 # The code
 
-This is code for the analysis of simulation results from ONE simulator execution.
+This is code for the analysis of simulation results from ONE simulator execution (https://github.com/prosseek/ContextSharingSimulation).
+The code needs to be evolved into a general library/framework for the backbone of simulation data analysis. 
 
 ### [2015/09/19]
 
