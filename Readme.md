@@ -1,3 +1,7 @@
+# The code
+
+This is code for the analysis of simulation results from ONE simulator execution.
+
 ### [2015/09/19]
 
 The three information to search for the results JSON file
